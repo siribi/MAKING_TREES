@@ -1,4 +1,4 @@
-# Making_trees
+# MAKING_TREES
 # WORKFLOW FOR MAKING GENE AND SPECIES TREES FOR COMPARATIVE PHYLOGENETIC ANALYSIS
 This repository contains scripts for generating gene a species tree and gene trees for phylogenetic analyses 
 
