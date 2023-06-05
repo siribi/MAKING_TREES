@@ -9,12 +9,72 @@ The scripts are written in bash and R for a slurm based computing cluster like t
 
 I use the following programs for making trees: <br />
 [ORTHOFINDER](https://github.com/davidemms/OrthoFinder) <br />
-[RAxML](https://cme.h-its.org/exelixis/web/software/raxml) <br />
+[pal2nal](http://www.bork.embl.de/pal2nal/) <br />
 [MrModeltest](https://github.com/nylander/MrModeltest2) <br />
+[PAUP*](https://paup.phylosolutions.com/) <br />
+[RAxML](https://cme.h-its.org/exelixis/web/software/raxml) <br />
 
 #################################################################################### <br />
 **Part 1. Running orthofinder to get a list of single copy orthologues for your species** 
 
 
+
+
 #################################################################################### <br />
-**Part 2. Running RAxML to make a species tree**
+**Part 2. Running MrModeltest to detect most suitable nucleotide substitution model for phylogeny reconstruction** 
+Best practice in phylogeny reconstruction usually involves choosing an appropriate nucleotide substitution model. Here I use MrModeltest to choose the best model based on AIC. 
+
+NOTE: This step may not be necessary. A paper by [Abadi et al. 2019](https://www.nature.com/articles/s41467-019-08822-w) in Nature Communications found that skipping model selection and choosing the most parameter-rich model directly (GTR+I +G) may give decent topologies. However, also check this [blogpost](https://www.michaelgerth.net/news--blog/why-we-should-not-abandon-model-selection-in-phylogeny-reconstruction) on why we should not entirely abandon model selection in phylogeny reconstruction. 
+
+First you need to create a nexus file. Previously I have used AliView and then changed the the sets part at the end of the file. See example here. 
+
+Copy the MrModeltest file to the folder along with the nexus file
+
+To run MrModeltest you need PAUP*:
+```
+     module load paup
+```
+
+Enter paup mode (depends on the version you use): 
+```
+     paup4b10 
+```
+
+Run MrModeltest:
+```
+     execute New_Cardamine_concat_fullnames.nexus
+     exclude pos_1;
+     exclude pos_2;
+     execute MrModelblock
+```
+
+Move mrmodel.scores to mrmodel.scores_pos3 and mrmodelfit.log to mrmodelfit.log_pos3
+
+```
+     exclude pos_3;
+     include pos_1;
+     execute MrModelblock
+```
+
+Move mrmodel.scores to mrmodel.scores_pos2 and mrmodelfit.log to mrmodelfit.log_pos2
+
+```
+     exclude pos_2;
+     include pos_3;
+     execute MrModelblock
+```
+
+Move mrmodel.scores to mrmodel.scores_pos1 and mrmodelfit.log to mrmodelfit.log_pos1
+
+Then run Mrmodeltest
+```
+    mrmodeltest2 < mrmodel.scores_pos1 > out_pos1 
+    mrmodeltest2 < mrmodel.scores_pos2 > out_pos2 
+    mrmodeltest2 < mrmodel.scores_pos3 > out_pos3 
+```
+
+Pick the best model based on the Akaike information criterion (AIC).
+
+#################################################################################### <br />
+**Part 3. Running RAxML to make a species tree**
+Use the script [run_raxml.sbatch](https://github.com/siribi/MAKING_TREES/blob/main/scripts/run_raxml.sbatch) to run RAxML and by copying and changing the file called [part](https://github.com/siribi/MAKING_TREES/blob/main/examples/part) in the examples directory
