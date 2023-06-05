@@ -1,5 +1,5 @@
 # Making_trees
-# WORKFLOW FOR GENERATING GENE ALIGNMENTS & RUNNING THE BRANCH-SITE TEST IN CODEML 
+# WORKFLOW FOR MAKING GENE AND SPECIES TREES FOR COMPARATIVE PHYLOGENETIC ANALYSIS
 This repository contains scripts for generating gene a species tree and gene trees for phylogenetic analyses 
 
 The scripts are written in bash and R for a slurm based computing cluster like this one: https://documentation.sigma2.no/jobs/job_scripts/saga_job_scripts.html
