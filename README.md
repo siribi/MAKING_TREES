@@ -17,26 +17,44 @@ I use the following programs for making trees: <br />
 #################################################################################### <br />
 **Part 1. Running orthofinder to get a list of single copy orthologues for your species** 
 
-First download complete nucleotide and peptide fasta sets for your species of interest. Then run Orthofinder using the script 
+First download complete nucleotide and peptide fasta sets for your species of interest. Gather the peptide fastas in a directory, and then run Orthofinder using the script [orthofinder.sbatch](https://github.com/siribi/MAKING_TREES/blob/main/scripts/orthofinder.sbatch). Remember to change path and the name of the directory (-f flag). If you only have nucleotide sequences, remember to use the flag -d (Input is DNA sequences). 
+
+Orthofinder will give you a list of single copy orthologues in the file "OrthoFinder/Results_XXX00/Orthogroups/Orthogroups_SingleCopyOrthologues.txt", and will even gather the protein sequences for you in the directory "OrthoFinder/Results_XXX00/Single_Copy_Orthologue_Sequences". These sequences need to be aligned using pal2nal. 
 
 1. pal2nal must be run with fasta output!
 2. Then I run the script Fasta2Phylip_batch.sh which runs Fasta2Phylip.pl, which converts fasta to phylip.
-3. Making a concatenated phylip file for raxml:
-    #Remember that the sequences have to be in the same order in all phylip files!!
+
+Makine a concatenated phylip file for RAxML:
+NB: Remember that the sequences have to be in the same order in all phylip files!
+```
     tail -q -n +2 *pal2nal.phylip >> concat_pal2nal.phylip ## (-q stands for quiet -> never output header giving file name, -n stands for lines)
-    #Extract field 2 in the header of all phylip files to a new file:
+```
+Extract field 2 in the header of all phylip files to a new file:
+```
     head -q -n1 *pal2nal.phylip | awk '{ print $2 }' >> sequence_lengths.txt
-    #Sum all values in a file:
+```
+Sum all values in a file:
+```
     awk '{ sum += $1 } END { print sum }' sequence_lengths.txt
-    #Nano concat_pal2nal.phylip and add sequence length. Copy header from other file to get correct spacing.
-4. The next step is to extract the first 9 lines and send it to a new file. Try me on:
-     head -q -n9 Cardamine_concat.phylip > first_9.phylip
-5. Extract the rest of the file into a new fileq
+```
+Use nano to open "concat_pal2nal.phylip" and add sequence length. Copy header from other file to get correct spacing.
+
+The next step is to extract the first 9 lines and send it to a new file. Try:
+```
+head -q -n9 Cardamine_concat.phylip > first_9.phylip
+```
+Extract the rest of the file into a new fileq
+```
      tail -q -n +10 Cardamine_concat.phylip > last_lines.phylip
-6. Extract column 2!
+```
+Extract column 2:
+```
      awk '{ print $2 }' last_lines.phylip >> last_lines_oneColumn.phylip
-7. Concatenate the two files:
+```
+Concatenate the two files:
+```     
      cat first_9.phylip last_lines_oneColumn.phylip > New_Cardamine_concat.phylip
+```
 8. How then do I reduce New_Cardamine_concat.phylip??
      Here I think I download to my own PC and then open in AliView. From there I can save as a phylip file. A bit unsure of what type, but trying to use long names in the first instance...
 
