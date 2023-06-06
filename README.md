@@ -21,7 +21,7 @@ First download complete nucleotide and peptide fasta sets for your species of in
 
 Orthofinder will give you a list of single copy orthologues in the file "OrthoFinder/Results_XXX00/Orthogroups/Orthogroups_SingleCopyOrthologues.txt", and will even gather the protein sequences for you in the directory "OrthoFinder/Results_XXX00/Single_Copy_Orthologue_Sequences". These sequences need to be aligned using pal2nal. 
 
-Pal2nal must be run with fasta output. Then you can run the script Fasta2Phylip_batch.sh which runs Fasta2Phylip.pl, converting fasta to phylip.
+Pal2nal must be run with fasta output. Then you can run the script Fasta2Phylip_batch.sh which runs Fasta2Phylip.pl, converting fasta to phylip. You can see an example of a phylip file I used [here](https://github.com/siribi/MAKING_TREES/tree/main/examples).
 
 Next we need to make a concatenated phylip file for our downstream RAxML species tree analysis:
 NB: Remember that the sequences have to be in the same order in all phylip files!
@@ -56,10 +56,10 @@ Concatenate the two files:
 cat first_9.phylip last_lines_oneColumn.phylip > New_Cardamine_concat.phylip
 ```
 
-NB: THIS FINAL BIT NEEDS TO BE CLARIFIED
-How then do I reduce New_Cardamine_concat.phylip??
-Here I think I download to my own PC and then open in AliView. From there I can save as a phylip file. 
-A bit unsure of what type, but trying to use long names in the first instance...
+#NB: THIS FINAL BIT NEEDS TO BE CLARIFIED
+#How then do I reduce New_Cardamine_concat.phylip??
+#Here I think I download to my own PC and then open in AliView. From there I can save as a phylip file. 
+#A bit unsure of what type, but trying to use long names in the first instance...
 
 #################################################################################### <br />
 **Part 2. Running MrModeltest to detect most suitable nucleotide substitution model for phylogeny reconstruction** 
@@ -67,9 +67,9 @@ Best practice in phylogeny reconstruction usually involves choosing an appropria
 
 NOTE: This step may not be necessary. A paper by [Abadi et al. 2019](https://www.nature.com/articles/s41467-019-08822-w) in Nature Communications found that skipping model selection and choosing the most parameter-rich model directly (GTR+I +G) may give decent topologies. However, also check this [blogpost](https://www.michaelgerth.net/news--blog/why-we-should-not-abandon-model-selection-in-phylogeny-reconstruction) on why we should not entirely abandon model selection in phylogeny reconstruction. 
 
-First you need to create a nexus file. Previously I have used AliView and then changed the the sets part at the end of the file. See example here. 
+For MrModeltest you need to create a nexus file (see example of a .nex file I have used [here](https://github.com/siribi/MAKING_TREES/tree/main/examples). Previously I have used the program AliView and then changed the the sets part at the end of the file.
 
-Copy the MrModeltest file (see old version in the resources directoy) to the folder along with the nexus file (example file located here)
+Copy the MrModeltest file (see old version in the [resources](https://github.com/siribi/MAKING_TREES/tree/main/resources)) to the folder along with the nexus file.
 
 To run MrModeltest you need PAUP*:
 ```
