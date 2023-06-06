@@ -5,9 +5,6 @@ The scripts are written in bash and R for a slurm based computing cluster like t
 
 Should you use the species tree or the gene tree? If you are planning to detect patterns of positive selection, [Álvarez-Carretero et al. 2023](https://academic.oup.com/mbe/article/40/4/msad041/7140562?login=true#supplementary-data) have a very good section on this topic in their [Supplementary](https://oup.silverchair-cdn.com/oup/backfile/Content_public/Journal/mbe/40/4/10.1093_molbev_msad041/2/msad041_supplementary_data.pdf?Expires=1689034523&Signature=Yw59lCp2pONA4XxZpx6mWOj2AV8V57MZo7RqAnMaBIsNcPUWn4FHzJ~XpclFQNsl3y0rXZzOXNdHJ-Ly9kyYGp9GMpYfNrH3iBdQMDbFzN4CW~3WQ9bDiVhLVQ5xdsGbPEwrIfmteeNEXKbA3OxbP7Tv8dDF0StfGCcjUO4cJihKTJkfPe9lVHrp5l34hWsCeW5-0NLzLm0nAbdcB7GvsSbGY~sGRDuudgBcCT-wQs31prp3Dhdf4QKearinF~jt9VjL3TKh08US2YhFNn8ZlWjWwwKxZ8SGoiEAb9mPUCG0ahbhqSNffCt6IFQTNV2zmV0oxmhVjqkZdnGvvdWaag__&Key-Pair-Id=APKAIE5G5CRDK6RD3PGA). For practical reasons, I have previously chosen to use the species tree for positive selection analyses when I have run these for entire gene sets. 
 
-# PART 1. MAKING ALIGNMENTS FROM ORTHOGROUPS
-#################################################################################### <br />
-
 I use the following programs for making trees: <br />
 [ORTHOFINDER](https://github.com/davidemms/OrthoFinder) <br />
 [pal2nal](http://www.bork.embl.de/pal2nal/) <br />
@@ -16,7 +13,7 @@ I use the following programs for making trees: <br />
 [RAxML](https://cme.h-its.org/exelixis/web/software/raxml) <br />
 
 #################################################################################### <br />
-**Part 1. Running orthofinder to get a list of single copy orthologues for your species** 
+# Part 1. Running orthofinder to get a list of single copy orthologues for your species
 
 First download complete nucleotide and peptide fasta sets for your species of interest. Gather the peptide fastas in a directory, and then run Orthofinder using the script [orthofinder.sbatch](https://github.com/siribi/MAKING_TREES/blob/main/scripts/orthofinder.sbatch). Remember to change path and the name of the directory (-f flag). If you only have nucleotide sequences, remember to use the flag -d (Input is DNA sequences). 
 
@@ -63,7 +60,7 @@ cat first_9.phylip last_lines_oneColumn.phylip > New_Cardamine_concat.phylip
 #A bit unsure of what type, but trying to use long names in the first instance...
 
 #################################################################################### <br />
-**Part 2. Running MrModeltest to detect most suitable nucleotide substitution model for phylogeny reconstruction** 
+# Part 2. Running MrModeltest to detect most suitable nucleotide substitution model for phylogeny reconstruction
 Best practice in phylogeny reconstruction usually involves choosing an appropriate nucleotide substitution model. Here I use MrModeltest to choose the best model based on AIC. 
 
 NOTE: This step may not be necessary. A paper by [Abadi et al. 2019](https://www.nature.com/articles/s41467-019-08822-w) in Nature Communications found that skipping model selection and choosing the most parameter-rich model directly (GTR+I +G) may give decent topologies. However, also check this [blogpost](https://www.michaelgerth.net/news--blog/why-we-should-not-abandon-model-selection-in-phylogeny-reconstruction) on why we should not entirely abandon model selection in phylogeny reconstruction. 
@@ -123,5 +120,5 @@ Then run Mrmodeltest
 Pick the best model based on the Akaike information criterion (AIC).
 
 #################################################################################### <br />
-**Part 3. Running RAxML to make a species tree**
+# Part 3. Running RAxML to make a species tree 
 Use the script [run_raxml.sbatch](https://github.com/siribi/MAKING_TREES/blob/main/scripts/run_raxml.sbatch) to run RAxML and by copying and changing the file called [part](https://github.com/siribi/MAKING_TREES/blob/main/examples/part) in the examples directory
