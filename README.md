@@ -21,21 +21,21 @@ First download complete nucleotide and peptide fasta sets for your species of in
 
 Orthofinder will give you a list of single copy orthologues in the file "OrthoFinder/Results_XXX00/Orthogroups/Orthogroups_SingleCopyOrthologues.txt", and will even gather the protein sequences for you in the directory "OrthoFinder/Results_XXX00/Single_Copy_Orthologue_Sequences". These sequences need to be aligned using pal2nal. 
 
-1. pal2nal must be run with fasta output!
-2. Then I run the script Fasta2Phylip_batch.sh which runs Fasta2Phylip.pl, which converts fasta to phylip.
+Pal2nal must be run with fasta output. Then you can run the script Fasta2Phylip_batch.sh which runs Fasta2Phylip.pl, converting fasta to phylip.
 
-Makine a concatenated phylip file for RAxML:
+Next we need to make a concatenated phylip file for our downstream RAxML species tree analysis:
 NB: Remember that the sequences have to be in the same order in all phylip files!
+Here -q stands for quiet (never output header giving file name) and -n stands for lines
 ```
-    tail -q -n +2 *pal2nal.phylip >> concat_pal2nal.phylip ## (-q stands for quiet -> never output header giving file name, -n stands for lines)
+tail -q -n +2 *pal2nal.phylip >> concat_pal2nal.phylip 
 ```
 Extract field 2 in the header of all phylip files to a new file:
 ```
-    head -q -n1 *pal2nal.phylip | awk '{ print $2 }' >> sequence_lengths.txt
+head -q -n1 *pal2nal.phylip | awk '{ print $2 }' >> sequence_lengths.txt
 ```
 Sum all values in a file:
 ```
-    awk '{ sum += $1 } END { print sum }' sequence_lengths.txt
+awk '{ sum += $1 } END { print sum }' sequence_lengths.txt
 ```
 Use nano to open "concat_pal2nal.phylip" and add sequence length. Copy header from other file to get correct spacing.
 
@@ -45,18 +45,21 @@ head -q -n9 Cardamine_concat.phylip > first_9.phylip
 ```
 Extract the rest of the file into a new fileq
 ```
-     tail -q -n +10 Cardamine_concat.phylip > last_lines.phylip
+tail -q -n +10 Cardamine_concat.phylip > last_lines.phylip
 ```
 Extract column 2:
 ```
-     awk '{ print $2 }' last_lines.phylip >> last_lines_oneColumn.phylip
+awk '{ print $2 }' last_lines.phylip >> last_lines_oneColumn.phylip
 ```
 Concatenate the two files:
 ```     
-     cat first_9.phylip last_lines_oneColumn.phylip > New_Cardamine_concat.phylip
+cat first_9.phylip last_lines_oneColumn.phylip > New_Cardamine_concat.phylip
 ```
-8. How then do I reduce New_Cardamine_concat.phylip??
-     Here I think I download to my own PC and then open in AliView. From there I can save as a phylip file. A bit unsure of what type, but trying to use long names in the first instance...
+
+NB: THIS FINAL BIT NEEDS TO BE CLARIFIED
+How then do I reduce New_Cardamine_concat.phylip??
+Here I think I download to my own PC and then open in AliView. From there I can save as a phylip file. 
+A bit unsure of what type, but trying to use long names in the first instance...
 
 #################################################################################### <br />
 **Part 2. Running MrModeltest to detect most suitable nucleotide substitution model for phylogeny reconstruction** 
