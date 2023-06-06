@@ -69,7 +69,7 @@ NOTE: This step may not be necessary. A paper by [Abadi et al. 2019](https://www
 
 First you need to create a nexus file. Previously I have used AliView and then changed the the sets part at the end of the file. See example here. 
 
-Copy the MrModeltest file to the folder along with the nexus file
+Copy the MrModeltest file (see old version in the resources directoy) to the folder along with the nexus file (example file located here)
 
 To run MrModeltest you need PAUP*:
 ```
